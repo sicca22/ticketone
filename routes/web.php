@@ -13,14 +13,20 @@
 |
 */
 
-$router->get( '/', function () use ($router) {
+$router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
 $router->get('/events', 'EventsController@index');
-$router->get('/events{id}', 'EventsController@index');
+$router->get('/events{id}', 'EventsController@show');
 
 //Creazione di un evento
 $router->post('/events','EventsController@create');
 
 //Aggiornamento di un av
-$router->put('/evetns{id}','EventsController@update');
+$router->post('/events{id}','EventsController@update');
+
+$router->delete('/events{id}', 'EventsController@delete');
+
+
+$router->post('/users','UsersController@create');

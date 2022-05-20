@@ -1,8 +1,8 @@
 <?php
-namespace App\Http\Resorces;
+namespace App\Http\Resources;
 
-use Illuminate\Http\Resouces\Json\JsonResouces;
-class EventResources extends JsonResouces {
+use Illuminate\Http\Resouces\Json\JsonResource;
+class EventResources extends JsonResource {
     public function toArray($request) {
         return[
             'id' => $this->id,
