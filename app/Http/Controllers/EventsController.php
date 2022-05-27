@@ -47,16 +47,9 @@ class EventsController extends Controller {
         }
     }
 
-    // Tutte le chiamate POST E PUT
-    // utilizzano la request per recuperare i dati
-    // presenti nel body della richiesta.
+
+    
     public function create(Request $request) {
-        // Il validate è un metodo presente in tutti i controller
-        // serve per validari i parametri della richiesta.
-        // Quindi a gestire e ritornare correttamente gli errori
-        // all'utente.
-        // Se la validazione non ha un esito positivo,
-        // l'eseguzione di questa funzione si ferma qui.
         $this->validate($request, [
             'name' => 'required|string|min:3',
             'description' => 'required|string',
@@ -119,20 +112,21 @@ class EventsController extends Controller {
         // usando l'ID passato nella URL
         $event = Event::find($id);
 
-        if (!$event) { // È true solo se l'oggetto non è null
-           
+        if ($event) { // È true solo se l'oggetto non è null
+            $event->update($request->all());
+            return new EventResource($event);
         } else { // Vuol dire che l'oggetto non è stato trovato
-            return $this->failure( 'The searched event does not exist', 1, 404);
+            return $this->failure('The searched event does not exist', 1, 404);
         }
-        $event->update($reuqest->all());
-        return new EventResource($event);
     }
     public function delete($id) {
         $event = Event::find($id);
         if(!$event) {
-            return $this->failure(message: "The event does not exist", internalCode: 1, statusCode: 404);
+            $event->delete();
+            return Event::all();
+        } else {
+            return $this->failure(message: "The event in deleted", internalCode: 1, statusCode: 404);
         }
-        $event->delete();
-        return new EventCollection(Event::all());
+            
     }
 }

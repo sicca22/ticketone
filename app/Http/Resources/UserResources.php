@@ -8,6 +8,7 @@ class UserResources extends JsonResource {
             'id' => $this->id,
             'mail' => $this->mail,
             'password' => $this->password,
+            'authToken' => $this->authToken,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
             'birthDate' => $this->birthDate,

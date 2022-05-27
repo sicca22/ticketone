@@ -3,25 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 use App\Models\User;
 use App\Http\Resources\UserResources;
 use App\Http\Resources\UserCollection;
 
 class UsersController extends Controller {
+    public function __construct() {
+    }
    
-
-
-    // Tutte le chiamate POST E PUT
-    // utilizzano la request per recuperare i dati
-    // presenti nel body della richiesta.
     public function create(Request $request) {
-        // Il validate è un metodo presente in tutti i controller
-        // serve per validari i parametri della richiesta.
-        // Quindi a gestire e ritornare correttamente gli errori
-        // all'utente.
-        // Se la validazione non ha un esito positivo,
-        // l'eseguzione di questa funzione si ferma qui.
+  
         $this->validate($request, [
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6|max:16',
@@ -37,6 +31,9 @@ class UsersController extends Controller {
         // Utilizzo new Event per initializzare un evento con tutte
         // le informazioni presenti nel body della richiesta (AKA params -> parametri della richiesta)
         $user = new User($request->all());
+        $user->authToken = Str::random(60);
+        $user->password = Hash::make($request->password);
+
         // La richista di salvataggio viene fatta al DB tramite Eloquent utilizzando PDO.
         $user->save();
 

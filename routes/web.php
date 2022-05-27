@@ -10,7 +10,7 @@
 | Here is where you can register all of the routes for an application.
 | It is a breeze. Simply tell Lumen the URIs it should respond to
 | and give it the Closure to call when that URI is requested.
-|
+|  // php -S localhost:8000 -t public
 */
 
 $router->get('/', function () use ($router) {
@@ -18,15 +18,15 @@ $router->get('/', function () use ($router) {
 });
 
 $router->get('/events', 'EventsController@index');
-$router->get('/events{id}', 'EventsController@show');
+$router->get('/events/{id}', 'EventsController@show');
 
 //Creazione di un evento
 $router->post('/events','EventsController@create');
 
 //Aggiornamento di un av
-$router->post('/events{id}','EventsController@update');
+$router->post('/events/{id}','EventsController@update');
 
-$router->delete('/events{id}', 'EventsController@delete');
+$router->delete('/events/{id}', 'EventsController@delete');
 
 
 $router->post('/users','UsersController@create');
