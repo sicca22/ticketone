@@ -20,13 +20,24 @@ $router->get('/', function () use ($router) {
 $router->get('/events', 'EventsController@index');
 $router->get('/events/{id}', 'EventsController@show');
 
-//Creazione di un evento
-$router->post('/events','EventsController@create');
+$router->group(['middleware' => 'auth'], function () use ($router){
+    $router->post('/events', 'EventsController@create');
+    //* bisogna che l'utente sia identificato
 
+    
 //Aggiornamento di un av
-$router->post('/events/{id}','EventsController@update');
+    $router->put('/events/{id}','EventsController@update');//* -> anche (authToken) autorizzazzione, modifico solo i miei
 
-$router->delete('/events/{id}', 'EventsController@delete');
+    
+    $router->delete('/events/{id}', 'EventsController@delete');//*->
+
+});
+
+//Creazione di un evento
+
 
 
 $router->post('/users','UsersController@create');
+
+//autenticazione utente/log in
+$router->post('/login','UsersController@login');

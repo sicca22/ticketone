@@ -81,5 +81,20 @@ class UsersController extends Controller {
         $user->update($reuqest->all());
         return new UserResource($event);
     }
-    
+ 
+    public function login(Request $request) {
+        $this->validate($request, [
+            'email' => 'required|email|',
+            'password' => 'required|string|min:6|max:16'
+        ]);
+    $user = User::where('email', $request->email)->first();
+        if ($user) {
+            if (Hash::check($request->password, $user->password)) {
+                return new UserResources($user);
+            }
+        }
+        return $this->failure('email e password sbagliati', 2, 422,);
+        
+    }
+
 }

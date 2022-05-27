@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Event;
-use App\Http\Resources\EventResource;
+use App\Http\Resources\EventResources;
 use App\Http\Resources\EventCollection;
 
 class EventsController extends Controller {
@@ -41,7 +41,7 @@ class EventsController extends Controller {
 
         if ($event) { // È true solo se l'oggetto non è null
             // Ritorno l'evento all'utente
-            return new EventResource($event);
+            return new EventResources($event);
         } else { // Vuol dire che l'oggetto non è stato trovato
             return $this->failure('The searched event does not exist', 1, 404);
         }
@@ -90,7 +90,7 @@ class EventsController extends Controller {
         // $event->likes_count = $request->likes_count;
         // $event->save();
 
-        return new EventResource($event);
+        return new EventResources($event);
     }
 
     public function update(Request $request, $id) {
@@ -114,7 +114,7 @@ class EventsController extends Controller {
 
         if ($event) { // È true solo se l'oggetto non è null
             $event->update($request->all());
-            return new EventResource($event);
+            return new EventResources($event);
         } else { // Vuol dire che l'oggetto non è stato trovato
             return $this->failure('The searched event does not exist', 1, 404);
         }
@@ -125,7 +125,7 @@ class EventsController extends Controller {
             $event->delete();
             return Event::all();
         } else {
-            return $this->failure(message: "The event in deleted", internalCode: 1, statusCode: 404);
+            return $this->failure(message: "The event is deleted", internalCode: 1, statusCode: 404);
         }
             
     }

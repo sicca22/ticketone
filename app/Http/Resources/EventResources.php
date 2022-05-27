@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resouces\Json\JsonResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 class EventResources extends JsonResource {
     public function toArray($request) {
         return[
